@@ -7,3 +7,13 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+embedded-hal = "1.0.0-alpha.4"  # A Hardware Abstraction Layer (HAL) for embedded systems
+nb = "1"                        # Minimal non-blocking I/O layer
+cortex-m = "0.7"                # Low level access to Cortex-M processors
+cortex-m-rt = "0.6"             # Minimal runtime / startup for Cortex-M microcontrollers
+
+# Peripheral access API for STM32F4 series microcontrollers
+[dependencies.stm32f4xx-hal]
+version = "0.8"
+features = ["rt", "stm32f429"]
