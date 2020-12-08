@@ -33,7 +33,7 @@ MinGW是针对Windows的GNU编译工具。
 
 > 如果碰到网络问题，可以使用各个开源镜像站提供的镜像
 > 使用如下指令设置临时环境变量
-> ```powershell
+> ```shell
 > # 临时环境变量
 > $env:RUSTUP_DIST_SERVER="https://mirrors.tuna.tsinghua.edu.cn/rustup"
 > 
@@ -45,11 +45,11 @@ MinGW是针对Windows的GNU编译工具。
 
 使用如下指令验证是否安装成功：
 
-``` powershell 
+```shell
 rustup -v
 ```
 
-``` text
+```text
 rustup 1.23.1 (3df2264a9 2020-11-30)
 info: This is the version for the rustup toolchain manager, not the rustc compiler.
 info: The currently active `rustc` version is `rustc 1.48.0 (7eac88abb 2020-11-16)`
