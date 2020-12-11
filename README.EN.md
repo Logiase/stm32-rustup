@@ -61,6 +61,8 @@ I'm also a noob.
 
 So just open an issue, and I'll try my best to answer.
 
+Give me a star to let me know this repo helps you and encourage me to do more.
+
 ## Author
 
 @Logiase
