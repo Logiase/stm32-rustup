@@ -1,5 +1,7 @@
 # stm32-rustup
 
+English: [README.EN.md](README.EN.md)
+
 Rust嵌入式开发指北。
 
 ## Why
@@ -47,6 +49,10 @@ stm32F429IGT6，若干导线，ST-Link调试器，TTL转串口。
   同上
 - [awesome-embedded-rust](https://github.com/rust-embedded/awesome-embedded-rust)
   在这你可以找到更多有关Rust嵌入式开发的资料，如硬件API，HAL，PAC
+
+## Q&A
+
+Open an Issues And I‘ll try my best to answer.
 
 ## Author
 
