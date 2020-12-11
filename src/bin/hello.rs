@@ -14,7 +14,7 @@ extern crate stm32f4xx_hal;
 fn main() -> ! {
     rtt_init_print!();
 
-    rprintln!("hello, world!!!!!!!!!");
+    rprintln!("hello, embedded world!!!!!!!!!");
 
     loop {}
 }
