@@ -13,8 +13,7 @@ nb = "1"                        # Minimal non-blocking I/O layer
 cortex-m = "0.6.3"                # Low level access to Cortex-M processors
 cortex-m-rt = "0.6.13"             # Minimal runtime / startup for Cortex-M microcontrollers
 panic-halt = "0.2"
-# cortex-m-semihosting = "0.3.7"  # Semihosting for ARM Cortex-M processors
-# panic-semihosting = "0.5.6"     # Report panic messages to the host stderr using semihosting
+switch-hal = "0.3.2"
 
 # Peripheral access API for STM32F4 series microcontrollers
 [dependencies.stm32f4xx-hal]

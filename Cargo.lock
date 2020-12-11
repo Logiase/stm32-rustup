@@ -218,6 +218,7 @@ dependencies = [
  "panic-halt",
  "rtt-target",
  "stm32f4xx-hal",
+ "switch-hal",
 ]
 
 [[package]]
@@ -247,6 +248,15 @@ dependencies = [
  "rand_core",
  "stm32f4",
  "void",
+]
+
+[[package]]
+name = "switch-hal"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "92c10340167223b7e1b97a44339798d7ed28e8b6cba029fdbc0aaa395642acb7"
+dependencies = [
+ "embedded-hal",
 ]
 
 [[package]]
