@@ -1,0 +1,5 @@
+[default.general]
+chip = "STM32F429IGTX"
+
+[default.rtt]
+enabled = true
