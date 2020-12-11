@@ -12,11 +12,11 @@ extern crate panic_halt;
 
 // prelude
 use hal::prelude::*;
+use stm32_rustup::*;
 
 // import
 use hal::{
     stm32,
-    rcc,
     delay,
 };
 use rtt_target::{rtt_init_print, rprintln};
@@ -52,16 +52,4 @@ fn main() -> ! {
         led_red.toggle().unwrap();
         delays.delay_ms(500_u32);
     }
-}
-
-/// 设置时钟
-/// `use_hse` 使用外部高速晶振
-/// `sysclk` 系统频率
-/// and ...
-fn setup_clocks(r: rcc::Rcc) -> rcc::Clocks {
-    return r
-        .cfgr
-        .use_hse(25.mhz())
-        .sysclk(180.mhz())
-        .freeze();
 }
