@@ -21,24 +21,24 @@ use hal::{
 };
 use rtt_target::{rtt_init_print, rprintln};
 
-// start
 #[entry]
 fn main() -> ! {
     rtt_init_print!();
 
+    // 获取外设
     let dp = stm32::Peripherals::take().unwrap();
     let cp = stm32::CorePeripherals::take().unwrap();
 
-    // setup clocks
+    // 设置时钟
     let clocks = setup_clocks(dp.RCC.constrain());
 
-    // delay
+    // 初始化延时 (时钟实现)
     let mut delays = delay::Delay::new(cp.SYST, clocks);
 
-    // gpio
+    // GPIOB
     let gb = dp.GPIOB.split();
 
-    // led
+    // led 推挽输出
     let mut led_green = gb.pb0.into_push_pull_output();
     let mut led_red = gb.pb1.into_push_pull_output();
 
@@ -46,6 +46,7 @@ fn main() -> ! {
 
     loop {
         rprintln!("new loop");
+        // 反转 500ms
         led_green.toggle().unwrap();
         delays.delay_ms(500_u32);
         led_red.toggle().unwrap();
@@ -53,6 +54,10 @@ fn main() -> ! {
     }
 }
 
+/// 设置时钟
+/// `use_hse` 使用外部高速晶振
+/// `sysclk` 系统频率
+/// and ...
 fn setup_clocks(r: rcc::Rcc) -> rcc::Clocks {
     return r
         .cfgr
