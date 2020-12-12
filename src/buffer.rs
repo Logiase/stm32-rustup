@@ -1,5 +1,3 @@
-#![no_std]
-
 const BUFFER_SIZE: usize = 512;
 
 pub struct BytesBuffer {
@@ -36,5 +34,18 @@ impl BytesBuffer {
         } else {
             None
         }
+    }
+
+    pub fn clear(&mut self) {
+        self.index = 0;
+    }
+
+    pub fn check_end(&mut self) -> Option<([u8; BUFFER_SIZE], usize)> {
+        if self.buffer[self.index - 1] == 0x0A {
+            if self.buffer[self.index - 2] == 0x0D {
+                return Some((self.buffer, self.index));
+            }
+        }
+        None
     }
 }
