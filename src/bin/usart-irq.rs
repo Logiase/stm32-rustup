@@ -34,7 +34,7 @@ static SERIAL1_BUF: Mutex<RefCell<Option<BytesBuffer>>> = Mutex::new(RefCell::ne
 fn start() -> ! {
     rtt_init_print!();
     let device = stm32::Peripherals::take().unwrap();
-    let core = stm32::CorePeripherals::take().unwrap();
+    let _core = stm32::CorePeripherals::take().unwrap();
     let rcc = device.RCC.constrain();
 
     let clocks = rcc.cfgr.use_hse(25.mhz()).sysclk(64.mhz()).freeze();
