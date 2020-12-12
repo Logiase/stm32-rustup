@@ -33,7 +33,7 @@ I'm using VSCode, and install these extensions:
 > NOTE: there is a bug in the newest version of `rust-analyzer`,
 > which can NOT parse macro properly, before the bug fixed,
 > please use version `0.2.400` instead.
-> 
+>
 > newest version now: `0.2.408`
 
 ## device
