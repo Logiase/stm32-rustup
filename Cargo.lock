@@ -213,6 +213,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "de96540e0ebde571dc55c73d60ef407c653844e6f9a1e2fdbd40c07b9252d812"
 
 [[package]]
+name = "panic-rtt-target"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cfcd4deccf5edead7dcd0531448f0bab1b935e6d88e47225b4b7c6bd3a443180"
+dependencies = [
+ "cortex-m",
+ "rtt-target 0.2.2",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -257,6 +267,15 @@ dependencies = [
  "indexmap",
  "proc-macro2",
  "syn",
+]
+
+[[package]]
+name = "rtt-target"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0869b4c5b6a6d8c5583fc473f9eb3423a170f77626b8c8a7fb18eddcda5770e2"
+dependencies = [
+ "ufmt-write",
 ]
 
 [[package]]
@@ -309,7 +328,8 @@ dependencies = [
  "embedded-hal",
  "nb 1.0.0",
  "panic-halt",
- "rtt-target",
+ "panic-rtt-target",
+ "rtt-target 0.3.0",
  "stm32f4xx-hal",
  "switch-hal",
 ]

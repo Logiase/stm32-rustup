@@ -25,3 +25,7 @@ features = ["rt", "stm32f429"]
 [dependencies.rtt-target]
 version = "0.3.0"
 features = ["cortex-m"]
+
+[dependencies.panic-rtt-target]
+version = "0.1.1"
+features = ["cortex-m"]
