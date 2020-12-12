@@ -5,8 +5,6 @@ use stm32f4xx_hal as hal;
 
 use cortex_m_rt::entry;
 
-extern crate panic_halt;
-
 use hal::prelude::*;
 use stm32_rustup::*;
 
@@ -14,14 +12,12 @@ use hal::{
     stm32,
     delay,
     gpio::{gpioa, gpioh, gpioc, Input, PullUp, PullDown},
-    interrupt,
 };
 use switch_hal::{InputSwitch, Switch, ActiveLow, IntoSwitch, OutputSwitch, ToggleableOutputSwitch, ActiveHigh};
 use rtt_target::{rtt_init_print, rprintln};
 use crate::ButtonDown::{Key0Pressed, Key1Pressed, Key2Pressed, WkUpPressed, NoPressed};
 use core::cell::RefCell;
 use cortex_m::interrupt::{free, Mutex};
-use stm32f4xx_hal::stm32::cryp::KEY;
 use core::ops::DerefMut;
 
 
