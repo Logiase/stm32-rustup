@@ -12,11 +12,8 @@ use hal::prelude::*;
 use stm32_rustup::*;
 
 // import
-use hal::{
-    stm32,
-    delay,
-};
-use rtt_target::{rtt_init_print, rprintln};
+use hal::{delay, stm32};
+use rtt_target::{rprintln, rtt_init_print};
 
 #[entry]
 fn main() -> ! {

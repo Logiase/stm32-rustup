@@ -8,24 +8,29 @@ use cortex_m_rt::entry;
 use hal::prelude::*;
 use stm32_rustup::*;
 
-use hal::{
-    stm32,
-    delay,
-    gpio::{gpioa, gpioh, gpioc, Input, PullUp, PullDown},
-};
-use switch_hal::{InputSwitch, Switch, ActiveLow, IntoSwitch, OutputSwitch, ToggleableOutputSwitch, ActiveHigh};
-use rtt_target::{rtt_init_print, rprintln};
-use crate::ButtonDown::{Key0Pressed, Key1Pressed, Key2Pressed, WkUpPressed, NoPressed};
+use crate::ButtonDown::{Key0Pressed, Key1Pressed, Key2Pressed, NoPressed, WkUpPressed};
 use core::cell::RefCell;
-use cortex_m::interrupt::{free, Mutex};
 use core::ops::DerefMut;
-
+use cortex_m::interrupt::{free, Mutex};
+use hal::{
+    delay,
+    gpio::{gpioa, gpioc, gpioh, Input, PullDown, PullUp},
+    stm32,
+};
+use rtt_target::{rprintln, rtt_init_print};
+use switch_hal::{
+    ActiveHigh, ActiveLow, InputSwitch, IntoSwitch, OutputSwitch, Switch, ToggleableOutputSwitch,
+};
 
 static DELAY: Mutex<RefCell<Option<delay::Delay>>> = Mutex::new(RefCell::new(None));
-static KEY0: Mutex<RefCell<Option<Switch<gpioh::PH3<Input<PullUp>>, ActiveLow>>>> = Mutex::new(RefCell::new(None));
-static KEY1: Mutex<RefCell<Option<Switch<gpioh::PH2<Input<PullUp>>, ActiveLow>>>> = Mutex::new(RefCell::new(None));
-static KEY2: Mutex<RefCell<Option<Switch<gpioc::PC13<Input<PullUp>>, ActiveLow>>>> = Mutex::new(RefCell::new(None));
-static WK_UP: Mutex<RefCell<Option<Switch<gpioa::PA0<Input<PullDown>>, ActiveHigh>>>> = Mutex::new(RefCell::new(None));
+static KEY0: Mutex<RefCell<Option<Switch<gpioh::PH3<Input<PullUp>>, ActiveLow>>>> =
+    Mutex::new(RefCell::new(None));
+static KEY1: Mutex<RefCell<Option<Switch<gpioh::PH2<Input<PullUp>>, ActiveLow>>>> =
+    Mutex::new(RefCell::new(None));
+static KEY2: Mutex<RefCell<Option<Switch<gpioc::PC13<Input<PullUp>>, ActiveLow>>>> =
+    Mutex::new(RefCell::new(None));
+static WK_UP: Mutex<RefCell<Option<Switch<gpioa::PA0<Input<PullDown>>, ActiveHigh>>>> =
+    Mutex::new(RefCell::new(None));
 
 #[entry]
 fn main() -> ! {
@@ -37,7 +42,9 @@ fn main() -> ! {
     let clocks = setup_clocks(dp.RCC.constrain());
 
     free(|cs| {
-        DELAY.borrow(cs).replace(Some(delay::Delay::new(cp.SYST, clocks)))
+        DELAY
+            .borrow(cs)
+            .replace(Some(delay::Delay::new(cp.SYST, clocks)))
     });
 
     let ga = dp.GPIOA.split();
@@ -48,14 +55,17 @@ fn main() -> ! {
     let mut led_green = gb.pb0.into_push_pull_output().into_active_low_switch();
     let mut led_red = gb.pb1.into_push_pull_output().into_active_low_switch();
 
-
     free(|cs| {
-        KEY0.borrow(cs).replace(Some(gh.ph3.into_pull_up_input().into_active_low_switch()));
-        KEY1.borrow(cs).replace(Some(gh.ph2.into_pull_up_input().into_active_low_switch()));
-        KEY2.borrow(cs).replace(Some(gc.pc13.into_pull_up_input().into_active_low_switch()));
-        WK_UP.borrow(cs).replace(Some(ga.pa0.into_pull_down_input().into_active_high_switch()))
+        KEY0.borrow(cs)
+            .replace(Some(gh.ph3.into_pull_up_input().into_active_low_switch()));
+        KEY1.borrow(cs)
+            .replace(Some(gh.ph2.into_pull_up_input().into_active_low_switch()));
+        KEY2.borrow(cs)
+            .replace(Some(gc.pc13.into_pull_up_input().into_active_low_switch()));
+        WK_UP.borrow(cs).replace(Some(
+            ga.pa0.into_pull_down_input().into_active_high_switch(),
+        ))
     });
-
 
     rprintln!("ready");
 
@@ -93,10 +103,34 @@ fn read_button() -> ButtonDown {
 
     fn read_status() -> (bool, bool, bool, bool) {
         free(|cs| {
-            let key0 = KEY0.borrow(cs).borrow().as_ref().unwrap().is_active().unwrap();
-            let key1 = KEY1.borrow(cs).borrow().as_ref().unwrap().is_active().unwrap();
-            let key2 = KEY2.borrow(cs).borrow().as_ref().unwrap().is_active().unwrap();
-            let wk_up = WK_UP.borrow(cs).borrow().as_ref().unwrap().is_active().unwrap();
+            let key0 = KEY0
+                .borrow(cs)
+                .borrow()
+                .as_ref()
+                .unwrap()
+                .is_active()
+                .unwrap();
+            let key1 = KEY1
+                .borrow(cs)
+                .borrow()
+                .as_ref()
+                .unwrap()
+                .is_active()
+                .unwrap();
+            let key2 = KEY2
+                .borrow(cs)
+                .borrow()
+                .as_ref()
+                .unwrap()
+                .is_active()
+                .unwrap();
+            let wk_up = WK_UP
+                .borrow(cs)
+                .borrow()
+                .as_ref()
+                .unwrap()
+                .is_active()
+                .unwrap();
             return (key0, key1, key2, wk_up);
         })
     }
@@ -105,7 +139,7 @@ fn read_button() -> ButtonDown {
         let status = read_status();
         unsafe {
             if KEY_UP && (status.0 || status.1 || status.2 || status.3) {
-                rprintln!("{}, {}, {}, {}", status.0,status.1,status.2,status.3);
+                rprintln!("{}, {}, {}, {}", status.0, status.1, status.2, status.3);
                 if let Some(ref mut delay) = DELAY.borrow(cs).borrow_mut().deref_mut() {
                     delay.delay_ms(10_u8);
                 }
