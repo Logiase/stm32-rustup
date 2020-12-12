@@ -7,9 +7,6 @@ use stm32f4xx_hal as hal;
 // attribute
 use cortex_m_rt::entry;
 
-// extern use
-extern crate panic_halt;
-
 // prelude
 use hal::prelude::*;
 use stm32_rustup::*;
