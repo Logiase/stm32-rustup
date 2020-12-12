@@ -21,6 +21,21 @@ See [Transplant](#Transplant)
 
 > well done !
 
+## Try out
+
+### IDE
+
+I'm using VSCode, and install these extensions:
+
+- crates
+- rust-analyzer
+
+> NOTE: there is a bug in the newest version of `rust-analyzer`,
+> which can NOT parse macro properly, before the bug fixed,
+> please use version `0.2.400` instead.
+> 
+> newest version now: `0.2.408`
+
 ## device
 
 my device is a STM32F429IGT6 chip and other peripherals
@@ -47,6 +62,12 @@ If you want to try out the examples in your device
 1. according to your device's manufacture, edit the memory layout `memory.x`
 2. fix the dependencies in `cargo.toml`
 3. redeclare pins in examples
+
+And if you want try in another architecture chip
+
+1. edit anything about target in `.cargo/config`
+2. edit `cargo.toml` to add crates about HAL, PAC
+3. Optionally, edit `.vscode/settings.json` to make vscode check your code correctly
 
 ## Read More
 

@@ -16,6 +16,36 @@ Rust具有的高级现代语言的特性使得其在不同型号芯片，甚至�
 
 > 什么叫舒服啊.jpg
 
+## 尝试
+
+### IDE
+
+VSCode是一个很好的选择，你需要安装如下扩展：
+
+- crates
+- rust-analyzer
+
+> 请注意：在最新版本的`rust-analyzer`中存在着无法解析宏的Bug，在修复之前请使用 0.2.400 版本
+> 当前最新版本：0.2.408
+
+### 编译
+
+使用如下命令进行编译 `blink`
+
+```shell
+cargo build --bin blink
+```
+
+编译后的ELF产物在`target/thumbv7em-none-eabihf/debug/`目录下，执行`binutils`即可查看相关信息。
+
+第一次编译的过程会很长，如果你修改了内存布局`memory.x`，再次执行`cargo build`并不会重新应用你的内存布局，
+你需要清除掉之前的缓存重新进行编译才可以应用新的内存布局
+
+```shell
+cargo clean
+cargo build --bin some_bin
+```
+
 ## 设备
 
 stm32F429IGT6，若干导线，ST-Link调试器，TTL转串口。
@@ -40,6 +70,12 @@ stm32F429IGT6，若干导线，ST-Link调试器，TTL转串口。
 1. 首先根据自己的设备修改内存布局`memory.x`
 2. 从`cargo.toml`中替换HAL，如果你的设备不是ARM内核，请同时修改`cortex-m`至你的目标架构
 3. 根据你的设备重新定义源码中的引脚
+
+如果你要在不同目标平台上进行修改尝试，请执行以下操作：
+
+1. 修改`.cargo/config`文件，将其中有关target的内容修改为你的目标架构
+2. 修改`cargo.toml`，引入你设备的布局，HAL等
+3. 可选，修改`.vscode/settings.json`中的内容来让VSCode正确检查你的代码
 
 ## 更多资源
 
