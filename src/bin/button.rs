@@ -7,19 +7,18 @@ use stm32f4xx_hal as hal;
 
 use cortex_m_rt::entry;
 
-use hal::prelude::*;
-use stm32_rustup::*;
-
 use crate::ButtonDown::{Key0Pressed, Key1Pressed, Key2Pressed, NoPressed, WkUpPressed};
 use core::cell::RefCell;
 use core::ops::DerefMut;
 use cortex_m::interrupt::{free, Mutex};
+use hal::prelude::*;
 use hal::{
     delay,
     gpio::{gpioa, gpioc, gpioh, Input, PullDown, PullUp},
     stm32,
 };
 use rtt_target::{rprintln, rtt_init_print};
+use stm32_rustup::*;
 use switch_hal::{
     ActiveHigh, ActiveLow, InputSwitch, IntoSwitch, OutputSwitch, Switch, ToggleableOutputSwitch,
 };
