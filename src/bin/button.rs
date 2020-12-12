@@ -22,6 +22,7 @@ use switch_hal::{
     ActiveHigh, ActiveLow, InputSwitch, IntoSwitch, OutputSwitch, Switch, ToggleableOutputSwitch,
 };
 
+// global instance
 static DELAY: Mutex<RefCell<Option<delay::Delay>>> = Mutex::new(RefCell::new(None));
 static KEY0: Mutex<RefCell<Option<Switch<gpioh::PH3<Input<PullUp>>, ActiveLow>>>> =
     Mutex::new(RefCell::new(None));
@@ -98,9 +99,12 @@ enum ButtonDown {
     NoPressed,
 }
 
+/// check button down
+/// KEY0 > KEY1 > KEY2 > WK_UP
 fn read_button() -> ButtonDown {
     static mut KEY_UP: bool = true;
 
+    // get current button status
     fn read_status() -> (bool, bool, bool, bool) {
         free(|cs| {
             let key0 = KEY0
