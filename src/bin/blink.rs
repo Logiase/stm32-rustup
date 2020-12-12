@@ -1,6 +1,8 @@
 #![no_main]
 #![no_std]
 
+extern crate panic_rtt_target;
+
 // alias
 use stm32f4xx_hal as hal;
 
