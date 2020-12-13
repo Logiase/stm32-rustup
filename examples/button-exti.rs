@@ -29,6 +29,8 @@ fn start() -> ! {
     let mut device = stm32::Peripherals::take().unwrap();
     let _core = stm32::CorePeripherals::take().unwrap();
 
+    device.RCC.apb2enr.write(|w| w.syscfgen().enabled());
+
     let rcc = device.RCC.constrain();
     let _clocks = rcc.cfgr.use_hse(25.mhz()).sysclk(72.mhz()).freeze();
 
@@ -70,36 +72,51 @@ fn start() -> ! {
         KEY2.borrow(cs).replace(key2.into());
     });
 
-    rprintln!("ok");
+    rprintln!(
+        "{}, {}, {}",
+        stm32::NVIC::is_enabled(Interrupt::EXTI2),
+        stm32::NVIC::is_enabled(Interrupt::EXTI3),
+        stm32::NVIC::is_enabled(Interrupt::EXTI15_10)
+    );
 
     loop {}
 }
 
-#[interrupt]
-fn EXTI15_10() {
+enum BtnPressed {
+    Key0Pressed,
+    Key1Pressed,
+    Key2Pressed,
+}
+
+fn key_pressed(btn: BtnPressed) {
     free(|cs| {
-        if let (Some(ref mut btn), Some(ref mut led_red)) = (
-            KEY2.borrow(cs).borrow_mut().deref_mut(),
+        if let (Some(ref mut led_red), Some(ref mut led_green)) = (
             LED_RED.borrow(cs).borrow_mut().deref_mut(),
+            LED_GREEN.borrow(cs).borrow_mut().deref_mut(),
         ) {
-            // 不做检查，因为只配置了一个中断源
-            led_red.toggle().unwrap();
-            btn.clear_interrupt_pending_bit();
+            match btn {
+                BtnPressed::Key0Pressed => {
+                    led_green.toggle().unwrap();
+                }
+                BtnPressed::Key1Pressed => {
+                    led_green.set_high().unwrap();
+                    led_red.set_high().unwrap();
+                }
+                BtnPressed::Key2Pressed => {
+                    led_red.toggle().unwrap();
+                }
+            }
         }
     });
 }
 
 #[interrupt]
 fn EXTI2() {
+    rprintln!("EXTI2");
     free(|cs| {
-        if let Some(ref mut btn) = KEY1.borrow(cs).borrow_mut().deref_mut() {
-            if let (Some(ref mut led_red), Some(ref mut led_green)) = (
-                LED_RED.borrow(cs).borrow_mut().deref_mut(),
-                LED_GREEN.borrow(cs).borrow_mut().deref_mut(),
-            ) {
-                led_red.set_high().unwrap();
-                led_green.set_high().unwrap();
-            }
+        let mut btn_ref = KEY1.borrow(cs).borrow_mut();
+        if let Some(ref mut btn) = btn_ref.deref_mut() {
+            key_pressed(BtnPressed::Key1Pressed);
             btn.clear_interrupt_pending_bit();
         }
     });
@@ -107,13 +124,23 @@ fn EXTI2() {
 
 #[interrupt]
 fn EXTI3() {
+    rprintln!("EXTI3");
     free(|cs| {
-        if let (Some(ref mut btn), Some(ref mut led_green)) = (
-            KEY0.borrow(cs).borrow_mut().deref_mut(),
-            LED_GREEN.borrow(cs).borrow_mut().deref_mut(),
-        ) {
-            // 不做检查，因为只配置了一个中断源
-            led_green.toggle().unwrap();
+        let mut btn_ref = KEY0.borrow(cs).borrow_mut();
+        if let Some(ref mut btn) = btn_ref.deref_mut() {
+            key_pressed(BtnPressed::Key0Pressed);
+            btn.clear_interrupt_pending_bit();
+        }
+    });
+}
+
+#[interrupt]
+fn EXTI15_10() {
+    rprintln!("EXTI15-10");
+    free(|cs| {
+        let mut btn_ref = KEY2.borrow(cs).borrow_mut();
+        if let Some(ref mut btn) = btn_ref.deref_mut() {
+            key_pressed(BtnPressed::Key2Pressed);
             btn.clear_interrupt_pending_bit();
         }
     });
