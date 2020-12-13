@@ -54,6 +54,10 @@ High-Speed-External : 25MHz
 
 - PB0 - A green LED
 - PB1 - A red LED
+- PA0 - WK_UP
+- PC13 - key
+- PH2 - key
+- PH3 - key
 
 ## Transplant
 
