@@ -5,3 +5,10 @@ rustflags = [
 
 [build]
 target = "thumbv7em-none-eabihf"
+
+[tasks.flash]
+command = "openocd"
+args = [
+    "-f", "openocd.cfg",
+    
+]
