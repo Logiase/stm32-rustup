@@ -117,6 +117,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cortex-m-semihosting"
+version = "0.3.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6bffa6c1454368a6aa4811ae60964c38e6996d397ff8095a8b9211b1c1f749bc"
+dependencies = [
+ "cortex-m",
+]
+
+[[package]]
 name = "embedded-hal"
 version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -223,6 +232,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "panic-semihosting"
+version = "0.5.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c3d55dedd501dfd02514646e0af4d7016ce36bc12ae177ef52056989966a1eec"
+dependencies = [
+ "cortex-m",
+ "cortex-m-semihosting",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -325,10 +344,12 @@ dependencies = [
  "cortex-m",
  "cortex-m-rt",
  "cortex-m-rtic",
+ "cortex-m-semihosting",
  "embedded-hal",
  "nb 1.0.0",
  "panic-halt",
  "panic-rtt-target",
+ "panic-semihosting",
  "rtt-target 0.3.0",
  "stm32f4xx-hal",
  "switch-hal",
