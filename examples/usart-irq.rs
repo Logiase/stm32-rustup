@@ -7,6 +7,7 @@ use core::cell::RefCell;
 use core::ops::DerefMut;
 use cortex_m::interrupt::{free, Mutex};
 use cortex_m_rt::entry;
+use cortex_m_rt::exception;
 use hal::prelude::*;
 use hal::{
     gpio::{gpioa, Alternate, AF7},
@@ -33,6 +34,9 @@ static SERIAL1_BUF: Mutex<RefCell<Option<BytesBuffer>>> = Mutex::new(RefCell::ne
 #[entry]
 fn start() -> ! {
     rtt_init_print!();
+
+    rprintln!("reset");
+
     let device = stm32::Peripherals::take().unwrap();
     let _core = stm32::CorePeripherals::take().unwrap();
     let rcc = device.RCC.constrain();
@@ -50,6 +54,7 @@ fn start() -> ! {
     .unwrap();
     serial1.listen(serial::Event::Rxne);
 
+    stm32::NVIC::unpend(Interrupt::USART1);
     unsafe {
         stm32::NVIC::unmask(Interrupt::USART1);
     }
