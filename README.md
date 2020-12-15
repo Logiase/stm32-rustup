@@ -30,6 +30,7 @@ Rust具有的高级现代语言的特性使得其在不同型号芯片，甚至�
 - iwdg 独立看门狗
 - timer 定时器控制LED
 - pwm PWM控制LED
+- rng 随机数发生器
 
 ### IDE
 
