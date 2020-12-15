@@ -350,6 +350,7 @@ dependencies = [
  "panic-halt",
  "panic-rtt-target",
  "panic-semihosting",
+ "rand_core",
  "rtt-target 0.3.0",
  "stm32f4xx-hal",
  "switch-hal",
