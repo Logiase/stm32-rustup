@@ -20,6 +20,17 @@ Rust具有的高级现代语言的特性使得其在不同型号芯片，甚至�
 
 ## 尝试
 
+目前有如下例子:
+
+- hello 通过rtt输出 "Hello Embedded World"
+- blink 闪烁LED
+- button 读取GPIO控制LED
+- usart-irq 通过串口中断读取USART, 实现复读机
+- button-exti GPIO外部中断控制LED
+- iwdg 独立看门狗
+- timer 定时器控制LED
+- pwm PWM控制LED
+
 ### IDE
 
 VSCode是一个很好的选择，你需要安装如下扩展：
@@ -28,14 +39,14 @@ VSCode是一个很好的选择，你需要安装如下扩展：
 - rust-analyzer
 
 > 请注意：在最新版本的`rust-analyzer`中存在着无法解析宏的Bug，在修复之前请使用 0.2.400 版本
-> 当前最新版本：0.2.408
+> 当前最新版本：0.2.416
 
 ### 编译
 
 使用如下命令进行编译 `blink`
 
 ```shell
-cargo build --bin blink
+cargo build --example blink
 ```
 
 编译后的ELF产物在`target/thumbv7em-none-eabihf/debug/`目录下，执行`binutils`即可查看相关信息。
@@ -45,7 +56,7 @@ cargo build --bin blink
 
 ```shell
 cargo clean
-cargo build --bin some_bin
+cargo build --example some_bin
 ```
 
 ## 设备
