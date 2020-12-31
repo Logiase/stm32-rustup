@@ -18,6 +18,8 @@ cortex-m-rtic = "0.5.5"
 rand_core = "0.5.1"
 cortex-m-semihosting = "0.3.7"
 panic-semihosting = "0.5.6"
+ssd1306 = "0.5"
+embedded-graphics = "0.6.2"
 
 # Peripheral access API for STM32F4 series microcontrollers
 [dependencies.stm32f4xx-hal]

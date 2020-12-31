@@ -43,6 +43,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "46afbd2983a5d5a7bd740ccb198caf5b82f45c40c09c0eed36052d91cb92e719"
 
 [[package]]
+name = "byte-slice-cast"
+version = "0.3.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0a5e3906bcbf133e33c1d4d95afc664ad37fbdb9f6568d8043e7ea8c27d93d3"
+
+[[package]]
 name = "byteorder"
 version = "1.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -123,6 +129,42 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6bffa6c1454368a6aa4811ae60964c38e6996d397ff8095a8b9211b1c1f749bc"
 dependencies = [
  "cortex-m",
+]
+
+[[package]]
+name = "display-interface"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "da12a892db5cce95ae247e8803dc653b1a73da3b0450f7983eb518dd54f583cf"
+
+[[package]]
+name = "display-interface-i2c"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4895cd4e54e5536ef370d7f1eec787aad8275dd8ad15815aebfa71dd847b4ebf"
+dependencies = [
+ "display-interface",
+ "embedded-hal",
+]
+
+[[package]]
+name = "display-interface-spi"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "94d08c3a1682b166cbcbb4fe009a31a1834ba46c16599bf7a9b3cc7bc31b38b0"
+dependencies = [
+ "byte-slice-cast",
+ "display-interface",
+ "embedded-hal",
+]
+
+[[package]]
+name = "embedded-graphics"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "40a69991ceb896bd4810a0cf2bcc46fc94b7860573c71f965d8e5b3d66942fed"
+dependencies = [
+ "byteorder",
 ]
 
 [[package]]
@@ -332,6 +374,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
+name = "ssd1306"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "28345cacf757b10972042dc60f4a06b0bdb13cd80b9a296669aaf07f20e5aa30"
+dependencies = [
+ "display-interface",
+ "display-interface-i2c",
+ "display-interface-spi",
+ "embedded-graphics",
+ "embedded-hal",
+ "generic-array 0.14.4",
+]
+
+[[package]]
 name = "stable_deref_trait"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -345,6 +401,7 @@ dependencies = [
  "cortex-m-rt",
  "cortex-m-rtic",
  "cortex-m-semihosting",
+ "embedded-graphics",
  "embedded-hal",
  "nb 1.0.0",
  "panic-halt",
@@ -352,6 +409,7 @@ dependencies = [
  "panic-semihosting",
  "rand_core",
  "rtt-target 0.3.0",
+ "ssd1306",
  "stm32f4xx-hal",
  "switch-hal",
 ]
