@@ -30,7 +30,8 @@ I'm using VSCode, and install these extensions:
 - crates
 - rust-analyzer
 
-> NOTE: there is a bug in the newest version of `rust-analyzer`,
+> NOTE: bug fixed. Use latest version, at least `0.2.441`.
+> there is a bug in the newest version of `rust-analyzer`,
 > which can NOT parse macro properly, before the bug fixed,
 > please use version `0.2.400` instead.
 >
